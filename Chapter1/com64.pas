@@ -17,7 +17,7 @@ begin
 	writeln('+-------------------------------------------------------+');
 	
 	poke($0000,$01);
-    poke($0001,$00);
-    poke($0002,$03);
+    	poke($0001,$00);
+    	poke($0002,$03);
 	while true do cpu_execute_one_cycle	
 end.
