@@ -3,25 +3,25 @@ program gen6502;
 uses sysutils;
 
 type instruction =  record
-						error: boolean; // set if illegal or not implemented
-						mnemonic: string;
-						memmode: string;
-					end;
+			error: boolean; // set if illegal or not implemented
+			mnemonic: string;
+			memmode: string;
+		    end;
 
 const 	mnem01 : array[0..7] of string = ('ORA','AND','EOR','ADC','STA','LDA','CMP','SBC');
-		mnem10 : array[0..7] of string = ('ASL','ROL','LSR','ROR','STX','LDX','DEC','INC');
-		mnem00 : array[0..7] of string = ('ERR','BIT','JMP','JMP','STY','LDY','CPY','CPX');
-		mmod01 : array[0..7] of string = ('(zp,X)','zp','#imm','abs','(zp),Y','zp,X','abs,Y','abs,X');
-		mmod10 : array[0..7] of string = ('#imm','zp','acc','abs','ERR','zp,X','ERR','abs,X');
-		mmod10alt : array[0..7] of string = ('#imm','zp','acc','abs','ERR','zp,Y','ERR','abs,Y');
-		mmod00 : array[0..7] of string = ('#imm','zp','ERR','abs','ERR','zp,X','ERR','abs,X');	
-		mnemBra : array[0..7] of string = ('BPL','BMI','BVC','BVS','BCC','BCS','BNE','BEQ');	
-		mnemOther1 : array[0..3] of string = ('BRK','JSR','RTI','RTS');
-		mnemOther2 : array[0..7] of string = ('PHP','PLP','PHA','PLA','DEY','TAY','INY','INX');
-		mnemOther3 : array[0..7] of string = ('CLC','SEC','CLI','SEI','TYA','CLV','CLD','SED');
-		mnemOther4 : array[8..14] of string = ('TXA','TXS','TAX','TSX','DEX','ERR','NOP');
+	mnem10 : array[0..7] of string = ('ASL','ROL','LSR','ROR','STX','LDX','DEC','INC');
+	mnem00 : array[0..7] of string = ('ERR','BIT','JMP','JMP','STY','LDY','CPY','CPX');
+	mmod01 : array[0..7] of string = ('(zp,X)','zp','#imm','abs','(zp),Y','zp,X','abs,Y','abs,X');
+	mmod10 : array[0..7] of string = ('#imm','zp','acc','abs','ERR','zp,X','ERR','abs,X');
+	mmod10alt : array[0..7] of string = ('#imm','zp','acc','abs','ERR','zp,Y','ERR','abs,Y');
+	mmod00 : array[0..7] of string = ('#imm','zp','ERR','abs','ERR','zp,X','ERR','abs,X');	
+	mnemBra : array[0..7] of string = ('BPL','BMI','BVC','BVS','BCC','BCS','BNE','BEQ');	
+	mnemOther1 : array[0..3] of string = ('BRK','JSR','RTI','RTS');
+	mnemOther2 : array[0..7] of string = ('PHP','PLP','PHA','PLA','DEY','TAY','INY','INX');
+	mnemOther3 : array[0..7] of string = ('CLC','SEC','CLI','SEI','TYA','CLV','CLD','SED');
+	mnemOther4 : array[8..14] of string = ('TXA','TXS','TAX','TSX','DEX','ERR','NOP');
 		
-var opc,aaa,bbb,cc: byte;
+var 	opc,aaa,bbb,cc: byte;
 	table: array[0..255] of instruction;
 
 	
@@ -69,9 +69,9 @@ begin
 					end;
 //			%11: write('ILL;')
 			end;
-			if opc in  [$89,
-						$02,$22,$42,$62,$82,$c2,$e2,$8a,$aa,$ca,$ea,$9e,
-						$20,$40,$60,$80,$44,$64,$34,$54,$74,$D4,$F4,$3C,$5C,$7C,$9C,$DC,$FC] then error := true;
+			if opc in  [	$89,
+					$02,$22,$42,$62,$82,$c2,$e2,$8a,$aa,$ca,$ea,$9e,
+					$20,$40,$60,$80,$44,$64,$34,$54,$74,$D4,$F4,$3C,$5C,$7C,$9C,$DC,$FC] then error := true;
 			if opc in [$10,$30,$50,$70,$90,$b0,$d0,$f0] then 
 				begin
 					error := false; mnemonic := mnemBra[opc>>5];memmode := 'rel';
